@@ -234,6 +234,7 @@ export class UnifiedSynonymService {
 
   // 나머지 메서드들은 다음 파일에서 계속 구현...
   private getBasicSynonyms(): SynonymMapping { return {}; }
+  private getFacilitySynonyms(): SynonymMapping { return {}; }
   private getLegalSynonyms(): SynonymMapping { return {}; }
   private getAdministrativeSynonyms(): SynonymMapping { return {}; }
   private getSmokingSynonyms(): SynonymMapping { return {}; }
