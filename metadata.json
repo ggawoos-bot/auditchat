@@ -1,0 +1,5 @@
+{
+  "name": "감사업무 문의 Chatbot",
+  "description": "An AI-powered chatbot that answers questions based on user-provided source material.",
+  "requestFramePermissions": []
+}

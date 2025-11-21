@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 사업문의 지원 Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- PDF.js 동적 로드 (여러 CDN 시도, Legacy 빌드 우선) -->
+    <script>
+      // PDF.js 동적 로드 (import.meta 오류 근본 해결)
+      // Legacy 빌드를 우선 사용하여 import.meta 오류 방지
+      (function() {
+        const pdfjsVersion = '5.4.296';
+        
+        // 여러 CDN 시도 (Legacy 빌드 우선, 일반 빌드 폴백)
+        const cdnUrls = [
+          'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + pdfjsVersion + '/legacy/build/pdf.min.js',
+          'https://unpkg.com/pdfjs-dist@' + pdfjsVersion + '/legacy/build/pdf.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + pdfjsVersion + '/pdf.min.js'
+        ];
+        
+        const workerUrls = [
+          'https://cdn.jsdelivr.net/npm/pdfjs-dist@' + pdfjsVersion + '/legacy/build/pdf.worker.min.js',
+          'https://unpkg.com/pdfjs-dist@' + pdfjsVersion + '/legacy/build/pdf.worker.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + pdfjsVersion + '/pdf.worker.min.js'
+        ];
+        
+        const cdnNames = ['jsdelivr (legacy)', 'unpkg (legacy)', 'cdnjs'];
+        
+        // 로컬 파일 경로 (Legacy 빌드 - UMD 형식)
+        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const localPdfPath = isDevelopment 
+          ? '/assets/pdf.min.js'
+          : './assets/pdf.min.js';
+        const localWorkerPath = isDevelopment
+          ? '/assets/pdf.worker.min.js'
+          : './assets/pdf.worker.min.js';
+        
+        function tryLoadPdfJs(index) {
+          if (index >= cdnUrls.length) {
+            // 모든 CDN 실패 시 로컬 Legacy 빌드 사용 (첫 번째 이미지 해결책 적용)
+            console.warn('⚠️ 모든 CDN에서 PDF.js 로드 실패, 로컬 Legacy 빌드 사용');
+            const localScript = document.createElement('script');
+            localScript.src = localPdfPath;
+            localScript.onload = function() {
+              if (window.pdfjsLib) {
+                // ✅ Worker 경로 명시적 설정 (첫 번째 이미지 해결책: 버전 불일치 방지)
+                window.pdfjsLib.GlobalWorkerOptions.workerSrc = localWorkerPath;
+                console.log('✅ PDF.js loaded from local Legacy build (v' + pdfjsVersion + ')');
+                console.log('   Worker: ' + localWorkerPath);
+              } else {
+                console.error('❌ 로컬 PDF.js 파일에서 pdfjsLib 객체를 찾을 수 없습니다.');
+                console.error('   PDF.js를 사용할 수 없습니다. 페이지를 새로고침해주세요.');
+              }
+            };
+            localScript.onerror = function() {
+              console.error('❌ 로컬 PDF.js 파일 로드 실패: ' + localPdfPath);
+              console.error('   PDF.js를 사용할 수 없습니다. 페이지를 새로고침해주세요.');
+              console.error('   해결책: npm run copy-pdfjs-legacy 실행 후 다시 시도하세요.');
+            };
+            document.head.appendChild(localScript);
+            return;
+          }
+          
+          const script = document.createElement('script');
+          script.src = cdnUrls[index];
+          script.onload = function() {
+            if (window.pdfjsLib) {
+              // ✅ Worker 경로 명시적 설정 (첫 번째 이미지 해결책: 버전 불일치 방지)
+              window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrls[index];
+              console.log('✅ PDF.js loaded successfully from CDN (v' + pdfjsVersion + ', ' + cdnNames[index] + ')');
+            } else {
+              // pdfjsLib가 없으면 다음 CDN 시도
+              console.warn('⚠️ pdfjsLib 객체를 찾을 수 없음, 다음 CDN 시도...');
+              tryLoadPdfJs(index + 1);
+            }
+          };
+          script.onerror = function() {
+            console.warn('⚠️ CDN ' + (index + 1) + ' (' + cdnNames[index] + ') 로드 실패, 다음 CDN 시도...');
+            tryLoadPdfJs(index + 1);
+          };
+          document.head.appendChild(script);
+        }
+        
+        // 첫 번째 CDN부터 시도 (Legacy 빌드 우선)
+        tryLoadPdfJs(0);
+      })();
+      
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'brand-bg': '#131314',
+              'brand-surface': '#1e1f20',
+              'brand-primary': '#8ab4f8',
+              'brand-secondary': '#4e5052',
+              'brand-text-primary': '#e8eaed',
+              'brand-text-secondary': '#bdc1c6',
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-brand-bg text-brand-text-primary">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
