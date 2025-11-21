@@ -768,6 +768,10 @@ export class ContextSelector {
       limitedChunks.push(chunk);
       totalLength += chunkLength;
     }
+    
+    console.log(`✅ 동적 컨텍스트 길이 제한 적용: ${limitedChunks.length}개 청크, ${totalLength}자 (최대: ${maxContextLength}자)`);
+    return limitedChunks;
+  }
 
   /**
    * 개선된 관련성 점수 계산
@@ -860,11 +864,7 @@ export class ContextSelector {
     return Math.round(score * 100) / 100; // 소수점 2자리까지
   }
 
-  /**
-   * 카테고리 매칭 점수 계산
-   */
-  private static calculateCategoryScore(category: string, chunk: Chunk): number {
-    // ...
+  // ...
       'definition': ['정의', '의미', '개념', '내용', '규정', '조항'],
       'procedure': ['절차', '방법', '과정', '단계', '순서', '절차'],
       'regulation': ['규정', '법령', '조항', '법률', '시행령', '시행규칙'],
