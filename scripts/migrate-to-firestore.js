@@ -6,10 +6,10 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, writeBatch, Timestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, writeBatch, Timestamp, query, where, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
+import { db } from './firebaseNodeConfig.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -107,28 +107,7 @@ try {
   console.log(`⚠️ 동의어 사전 로드 실패: ${error.message}. 기본 키워드만 사용합니다.`);
 }
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "chat-4c3a7.firebaseapp.com",
-  projectId: "chat-4c3a7",
-  storageBucket: "chat-4c3a7.firebasestorage.app",
-  messagingSenderId: "995636644973",
-  appId: "1:995636644973:web:1f133c19af8be180444364"
-};
-
-// 환경변수 검증
-if (!firebaseConfig.apiKey) {
-  console.error('❌ Firebase API key가 설정되지 않았습니다.');
-  console.error('   .env.local 파일에 FIREBASE_API_KEY를 설정해주세요.');
-  process.exit(1);
-}
-
-
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Firebase 초기화는 scripts/firebaseNodeConfig.js에서 공통 처리
 
 // SSL/TLS 인증서 검증 설정 (개발 환경용)
 if (process.env.NODE_TLS_REJECT_UNAUTHORIZED === '0') {
