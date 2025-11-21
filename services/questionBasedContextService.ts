@@ -864,7 +864,11 @@ export class ContextSelector {
     return Math.round(score * 100) / 100; // 소수점 2자리까지
   }
 
-  // ...
+  /**
+   * 카테고리 매칭 점수 계산
+   */
+  private static calculateCategoryScore(category: string, chunk: Chunk): number {
+    const categoryKeywords: { [key: string]: string[] } = {
       'definition': ['정의', '의미', '개념', '내용', '규정', '조항'],
       'procedure': ['절차', '방법', '과정', '단계', '순서', '절차'],
       'regulation': ['규정', '법령', '조항', '법률', '시행령', '시행규칙'],
@@ -876,7 +880,7 @@ export class ContextSelector {
     const keywords = categoryKeywords[category] || [];
     const matches = keywords.filter(keyword =>
       chunk.content.toLowerCase().includes(keyword.toLowerCase()) ||
-      chunk.metadata.section.toLowerCase().includes(keyword.toLowerCase())
+      (chunk.metadata.section || '').toLowerCase().includes(keyword.toLowerCase())
     ).length;
 
     return matches * 12;
