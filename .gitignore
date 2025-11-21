@@ -26,6 +26,7 @@ Thumbs.db
 
 # Logs
 *.log
+!ggawoos-bot*.log
 
 # PDF files (large files - may be stored separately)
 # public/pdf/*.pdf

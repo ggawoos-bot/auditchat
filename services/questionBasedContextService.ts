@@ -768,20 +768,17 @@ export class ContextSelector {
       limitedChunks.push(chunk);
       totalLength += chunkLength;
     }
-    
-    console.log(`✅ 동적 컨텍스트 길이 제한 적용: ${limitedChunks.length}개 청크, ${totalLength}자 (최대: ${maxContextLength}자)`);
-    return limitedChunks;
-  }
 
   /**
    * 개선된 관련성 점수 계산
    */
   private static calculateEnhancedRelevanceScore(questionAnalysis: QuestionAnalysis, chunk: Chunk): number {
     let score = 0;
-    const { keywords, category, complexity, intent } = questionAnalysis;
+    const { keywords, expandedKeywords, category, complexity, intent } = questionAnalysis;
+    const combinedKeywords = Array.from(new Set([...(keywords || []), ...(expandedKeywords || [])]));
 
     // 1. 키워드 매칭 점수 (가중치 적용)
-    const keywordMatches = keywords.filter(keyword =>
+    const keywordMatches = combinedKeywords.filter(keyword =>
       chunk.keywords.some(chunkKeyword =>
         chunkKeyword.toLowerCase().includes(keyword.toLowerCase()) ||
         keyword.toLowerCase().includes(chunkKeyword.toLowerCase())
@@ -790,13 +787,13 @@ export class ContextSelector {
     score += keywordMatches * 15; // 가중치 증가
 
     // 2. 내용 매칭 점수 (정확한 매치 우선)
-    const exactMatches = keywords.filter(keyword =>
+    const exactMatches = combinedKeywords.filter(keyword =>
       chunk.content.toLowerCase().includes(keyword.toLowerCase())
     ).length;
     score += exactMatches * 10;
 
     // 3. 동의어 매칭 점수
-    const synonyms = this.getExpandedSynonyms(keywords);
+    const synonyms = this.getExpandedSynonyms(combinedKeywords);
     const synonymMatches = synonyms.filter(synonym =>
       chunk.content.toLowerCase().includes(synonym.toLowerCase())
     ).length;
@@ -822,6 +819,44 @@ export class ContextSelector {
     const complexityScore = this.calculateComplexityScore(complexity, chunk);
     score += complexityScore;
 
+    // 9. 법령 및 핵심 키워드(예: 수의계약) 우선 가중치
+    const contentLower = chunk.content.toLowerCase();
+    const titleLower = (chunk.metadata.title || '').toLowerCase();
+    const intentLower = (intent || '').toLowerCase();
+    const contextLower = (questionAnalysis.context || '').toLowerCase();
+
+    const lawKeywords = [
+      '국가를 당사자로 하는 계약에 관한 법률 시행령',
+      '국가계약법 시행령'
+    ];
+
+    const questionMentionsLaw = lawKeywords.some(law =>
+      contextLower.includes(law) || combinedKeywords.some(k => k.includes(law))
+    );
+
+    if (questionMentionsLaw) {
+      const chunkFromLaw = lawKeywords.some(law =>
+        titleLower.includes(law) || contentLower.includes(law)
+      );
+      if (chunkFromLaw) {
+        score += 80; // 법령 지정 시 동일 법령 청크에 강한 가중치
+      }
+    }
+
+    const questionMentionsSwy =
+      contextLower.includes('수의계약') ||
+      intentLower.includes('수의계약') ||
+      combinedKeywords.some(k => k.includes('수의계약'));
+
+    if (questionMentionsSwy) {
+      const chunkMentionsSwy =
+        contentLower.includes('수의계약') ||
+        (chunk.keywords || []).some(k => k.includes('수의계약'));
+      if (chunkMentionsSwy) {
+        score += 60; // 수의계약 관련 조항에 추가 가중치
+      }
+    }
+
     return Math.round(score * 100) / 100; // 소수점 2자리까지
   }
 
@@ -829,7 +864,7 @@ export class ContextSelector {
    * 카테고리 매칭 점수 계산
    */
   private static calculateCategoryScore(category: string, chunk: Chunk): number {
-    const categoryKeywords = {
+    // ...
       'definition': ['정의', '의미', '개념', '내용', '규정', '조항'],
       'procedure': ['절차', '방법', '과정', '단계', '순서', '절차'],
       'regulation': ['규정', '법령', '조항', '법률', '시행령', '시행규칙'],
