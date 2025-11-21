@@ -3,9 +3,7 @@
  * Transformers.js를 사용하여 모든 청크에 임베딩 생성
  */
 
-import { initializeApp } from 'firebase/app';
 import { 
-  getFirestore, 
   collection, 
   getDocs, 
   doc, 
@@ -18,6 +16,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import fs from 'fs';
+import { db } from './firebaseNodeConfig.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,26 +31,7 @@ if (fs.existsSync(envLocalPath)) {
 // .env 파일 로드 (기본값)
 dotenv.config();
 
-// Firebase 설정
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "chat-4c3a7.firebaseapp.com",
-  projectId: "chat-4c3a7",
-  storageBucket: "chat-4c3a7.firebasestorage.app",
-  messagingSenderId: "995636644973",
-  appId: "1:995636644973:web:1f133c19af8be180444364"
-};
-
-// 환경변수 검증
-if (!firebaseConfig.apiKey) {
-  console.error('❌ Firebase API key가 설정되지 않았습니다.');
-  console.error('   .env.local 파일에 FIREBASE_API_KEY를 설정해주세요.');
-  process.exit(1);
-}
-
-// Firebase 초기화
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Firebase 초기화는 scripts/firebaseNodeConfig.js에서 공통 처리
 
 // Offline 모드 활성화 (Node.js 환경)
 env.allowLocalModels = true;

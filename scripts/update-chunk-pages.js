@@ -38,12 +38,12 @@ const pdfParse = require('pdf-parse');
 
 // Firebase 초기화 (migrate-to-firestore.js와 동일한 방식)
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "chat-4c3a7.firebaseapp.com",
-  projectId: "chat-4c3a7",
-  storageBucket: "chat-4c3a7.firebasestorage.app",
-  messagingSenderId: "995636644973",
-  appId: "1:995636644973:web:1f133c19af8be180444364"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: "auditchat-afba2.firebaseapp.com",
+  projectId: "auditchat-afba2",
+  storageBucket: "auditchat-afba2.firebasestorage.app",
+  messagingSenderId: "520921831330",
+  appId: "1:520921831330:web:5ae07893a4677566c344fb"
 };
 
 // Firebase 설정 검증
