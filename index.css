@@ -336,7 +336,11 @@ body.day-mode .border-brand-secondary {
 
 /* Day 모드에서 마크다운(.prose) 요소도 라이트 톤으로 강제 */
 body.day-mode .prose {
-  color: #111827; /* 기본 텍스트: gray-900 */
+  color: #111827 !important; /* 기본 텍스트: gray-900 */
+}
+
+body.day-mode .prose *:not(.bg-blue-100):not(.text-blue-900):not(a) {
+  color: #111827 !important; /* 하이라이트와 링크를 제외한 모든 요소 */
 }
 
 body.day-mode .prose h1,
@@ -345,75 +349,102 @@ body.day-mode .prose h3,
 body.day-mode .prose h4,
 body.day-mode .prose h5,
 body.day-mode .prose h6 {
-  color: #111827;
+  color: #111827 !important;
+}
+
+body.day-mode .prose p {
+  color: #111827 !important;
+}
+
+body.day-mode .prose span:not(.bg-blue-100):not(.text-blue-900) {
+  color: #111827 !important;
+}
+
+body.day-mode .prose div {
+  color: #111827 !important;
 }
 
 body.day-mode .prose a {
-  color: #2563eb; /* blue-600 */
+  color: #2563eb !important; /* blue-600 */
 }
 
 body.day-mode .prose a:hover {
-  color: #1d4ed8; /* blue-700 */
+  color: #1d4ed8 !important; /* blue-700 */
 }
 
 body.day-mode .prose th,
 body.day-mode .prose td {
-  border-color: #d1d5db; /* gray-300 */
-  color: #111827;
+  border-color: #d1d5db !important; /* gray-300 */
+  color: #111827 !important;
 }
 
 body.day-mode .prose th {
-  background-color: #e5e7eb; /* gray-200 */
+  background-color: #e5e7eb !important; /* gray-200 */
 }
 
 body.day-mode .prose tbody tr:nth-child(even) {
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb !important; /* gray-50 */
 }
 
 body.day-mode .prose tbody tr:hover {
-  background-color: #e5f2ff; /* 옅은 블루 */
+  background-color: #e5f2ff !important; /* 옅은 블루 */
 }
 
 body.day-mode .prose blockquote {
-  background-color: #f3f4f6; /* gray-100 */
-  border-color: #60a5fa; /* blue-400 */
-  color: #111827;
+  background-color: #f3f4f6 !important; /* gray-100 */
+  border-color: #60a5fa !important; /* blue-400 */
+  color: #111827 !important;
 }
 
 body.day-mode .prose code {
-  background-color: #f3f4f6; /* gray-100 */
-  color: #111827;
+  background-color: #f3f4f6 !important; /* gray-100 */
+  color: #111827 !important;
 }
 
 body.day-mode .prose pre {
-  background-color: #f3f4f6; /* gray-100 */
-  border-color: #d1d5db; /* gray-300 */
-  color: #111827;
+  background-color: #f3f4f6 !important; /* gray-100 */
+  border-color: #d1d5db !important; /* gray-300 */
+  color: #111827 !important;
+}
+
+body.day-mode .prose pre code {
+  color: #111827 !important;
 }
 
 body.day-mode .prose ul,
 body.day-mode .prose ol {
-  color: #111827;
+  color: #111827 !important;
 }
 
 body.day-mode .prose li {
-  color: #111827;
+  color: #111827 !important;
 }
 
 body.day-mode .prose li::marker {
-  color: #4b5563; /* gray-600 - 리스트 점/숫자 */
+  color: #4b5563 !important; /* gray-600 - 리스트 점/숫자 */
 }
 
 body.day-mode .prose strong {
-  color: #111827;
+  color: #111827 !important;
 }
 
 body.day-mode .prose em {
-  color: #111827;
+  color: #111827 !important;
+}
+
+body.day-mode .prose b {
+  color: #111827 !important;
+}
+
+body.day-mode .prose i {
+  color: #111827 !important;
 }
 
 /* Day 모드에서 파란색 하이라이트(참조 규정/조문 등)를 더 진하게 */
-body.day-mode .prose .bg-blue-100.text-blue-900 {
+body.day-mode .prose .bg-blue-100.text-blue-900,
+body.day-mode .prose span.bg-blue-100.text-blue-900,
+body.day-mode .prose .bg-blue-100,
+body.day-mode .prose .text-blue-900 {
   background-color: #bfdbfe !important; /* blue-200 정도로 좀 더 진하게 */
   color: #1e3a8a !important;            /* text-blue-900 보다 조금 더 진한 남색 느낌 유지 */
 }
