@@ -411,3 +411,9 @@ body.day-mode .prose strong {
 body.day-mode .prose em {
   color: #111827;
 }
+
+/* Day 모드에서 파란색 하이라이트(참조 규정/조문 등)를 더 진하게 */
+body.day-mode .prose .bg-blue-100.text-blue-900 {
+  background-color: #bfdbfe !important; /* blue-200 정도로 좀 더 진하게 */
+  color: #1e3a8a !important;            /* text-blue-900 보다 조금 더 진한 남색 느낌 유지 */
+}
