@@ -5,12 +5,14 @@ interface MessageInputProps {
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   placeholder?: string;
+  theme?: 'light' | 'dark';
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({ 
   onSendMessage, 
   disabled = false, 
-  placeholder = "메시지를 입력하세요..." 
+  placeholder = "메시지를 입력하세요...",
+  theme = 'dark'
 }) => {
   const [message, setMessage] = useState('');
 
@@ -30,7 +32,14 @@ const MessageInput: React.FC<MessageInputProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 p-2 md:p-4 bg-brand-surface border-t border-brand-secondary">
+    <form
+      onSubmit={handleSubmit}
+      className={`flex gap-2 p-2 md:p-4 border-t ${
+        theme === 'dark'
+          ? 'bg-brand-surface border-brand-secondary'
+          : 'bg-white border-gray-200'
+      }`}
+    >
       <input
         type="text"
         value={message}
@@ -38,7 +47,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
         disabled={disabled}
-        className="flex-1 p-2 md:p-3 bg-brand-bg border border-brand-secondary rounded-lg text-brand-text-primary focus:outline-none focus:border-brand-primary disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+        className={`flex-1 p-2 md:p-3 rounded-lg focus:outline-none focus:border-brand-primary disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base border ${
+          theme === 'dark'
+            ? 'bg-brand-bg border-brand-secondary text-brand-text-primary'
+            : 'bg-white border-gray-300 text-gray-900'
+        }`}
       />
       <button
         type="submit"

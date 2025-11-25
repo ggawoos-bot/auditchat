@@ -11,9 +11,10 @@ interface MessageProps {
   message: MessageType;
   allMessages?: MessageType[];
   messageIndex?: number;
+  theme?: 'light' | 'dark';
 }
 
-const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageIndex = -1 }) => {
+const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageIndex = -1, theme = 'dark' }) => {
   const isUser = message.role === 'user';
   const Icon = isUser ? UserIcon : BotIcon;
   const [isCopied, setIsCopied] = useState(false);
@@ -597,11 +598,15 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
         <Icon className="w-3 h-3 md:w-5 md:h-5 text-white" />
       </div>
       <div className={`flex-1 max-w-[85%] md:max-w-[80%] ${isUser ? 'text-right' : 'text-left'}`}>
-        <div className={`message-container relative inline-block p-2 md:p-3 rounded-lg text-sm md:text-base ${
-          isUser 
-            ? 'bg-brand-primary text-white' 
-            : 'bg-brand-surface text-brand-text-primary border border-brand-secondary'
-        }`}>
+        <div
+          className={`message-container relative inline-block p-2 md:p-3 rounded-lg text-sm md:text-base ${
+            isUser
+              ? 'bg-brand-primary text-white'
+              : theme === 'dark'
+                ? 'bg-brand-surface text-brand-text-primary border border-brand-secondary'
+                : 'bg-white text-gray-900 border border-gray-200'
+          }`}
+        >
           {/* 복사 버튼 (AI 메시지에만 표시) */}
           {!isUser && (
             <button
@@ -625,7 +630,13 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
           {isUser ? (
             <p className="whitespace-pre-wrap break-words">{message.content}</p>
           ) : (
-            <div className="prose prose-invert max-w-none [&_table]:border-collapse [&_table]:w-full [&_table]:my-4 [&_table]:border [&_table]:border-brand-secondary">
+            <div
+              className={`${
+                theme === 'dark'
+                  ? 'prose prose-invert'
+                  : 'prose'
+              } max-w-none [&_table]:border-collapse [&_table]:w-full [&_table]:my-4 [&_table]:border [&_table]:border-brand-secondary`}
+            >
               <ReactMarkdown 
                 remarkPlugins={[remarkGfm]}
                 // ✅ AI 응답 전처리: [참조 X] 형식을 **X** 형식으로 변환
@@ -687,12 +698,18 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
                     </div>
                   ),
                   thead: ({ children, ...props }) => (
-                    <thead className="bg-brand-secondary" {...props}>
+                    <thead
+                      className={theme === 'dark' ? 'bg-brand-secondary' : 'bg-gray-100'}
+                      {...props}
+                    >
                       {children}
                     </thead>
                   ),
                   tbody: ({ children, ...props }) => (
-                    <tbody className="bg-brand-surface" {...props}>
+                    <tbody
+                      className={theme === 'dark' ? 'bg-brand-surface' : 'bg-white'}
+                      {...props}
+                    >
                       {children}
                     </tbody>
                   ),

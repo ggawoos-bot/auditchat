@@ -174,7 +174,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
         )}
         
         {messages.map((message, index) => (
-          <Message key={message.id} message={message} allMessages={messages} messageIndex={index} />
+          <Message
+            key={message.id}
+            message={message}
+            allMessages={messages}
+            messageIndex={index}
+            theme={theme}
+          />
         ))}
         
         {isProcessing && (
@@ -197,6 +203,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
         onSendMessage={handleSendMessage}
         disabled={isProcessing || isLoading}
         placeholder={placeholder}
+        theme={theme}
       />
     </div>
   );
