@@ -27,44 +27,45 @@ body {
   color: inherit;
 }
 
-/* prose-invert 클래스 커스터마이징 */
+/* prose-invert 클래스 커스터마이징 - 개선된 가독성 */
 .prose-invert {
-  --tw-prose-body: #e8eaed;
-  --tw-prose-headings: #8ab4f8;
-  --tw-prose-lead: #bdc1c6;
-  --tw-prose-links: #8ab4f8;
-  --tw-prose-bold: #e8eaed;
-  --tw-prose-counters: #bdc1c6;
-  --tw-prose-bullets: #4e5052;
-  --tw-prose-hr: #4e5052;
-  --tw-prose-quotes: #bdc1c6;
-  --tw-prose-quote-borders: #4e5052;
-  --tw-prose-captions: #bdc1c6;
-  --tw-prose-code: #8ab4f8;
-  --tw-prose-pre-code: #e8eaed;
-  --tw-prose-pre-bg: #131314;
-  --tw-prose-th-borders: #4e5052;
-  --tw-prose-td-borders: #4e5052;
+  --tw-prose-body: #f3f4f6; /* 더 밝은 회색으로 변경 */
+  --tw-prose-headings: #93c5fd; /* 더 밝은 파란색 */
+  --tw-prose-lead: #e5e7eb; /* 훨씬 밝게 */
+  --tw-prose-links: #93c5fd; /* 더 밝은 파란색 */
+  --tw-prose-bold: #f9fafb; /* 거의 흰색에 가깝게 */
+  --tw-prose-counters: #e5e7eb; /* 훨씬 밝게 */
+  --tw-prose-bullets: #9ca3af; /* 더 밝은 회색 */
+  --tw-prose-hr: #6b7280;
+  --tw-prose-quotes: #e5e7eb; /* 훨씬 밝게 */
+  --tw-prose-quote-borders: #6b7280;
+  --tw-prose-captions: #e5e7eb; /* 훨씬 밝게 */
+  --tw-prose-code: #93c5fd; /* 더 밝은 파란색 */
+  --tw-prose-pre-code: #f3f4f6; /* 더 밝게 */
+  --tw-prose-pre-bg: #1f2937; /* 조금 더 밝은 배경 */
+  --tw-prose-th-borders: #6b7280;
+  --tw-prose-td-borders: #6b7280;
 }
 
-/* 표 스타일 강제 적용 */
+/* 표 스타일 강제 적용 - 개선된 가독성 */
 .prose-invert table {
   border-collapse: collapse !important;
   width: 100% !important;
   margin: 1rem 0 !important;
-  border: 1px solid #4e5052 !important;
+  border: 1px solid #6b7280 !important; /* 더 밝은 테두리 */
 }
 
 .prose-invert th,
 .prose-invert td {
-  border: 1px solid #4e5052 !important;
+  border: 1px solid #6b7280 !important; /* 더 밝은 테두리 */
   padding: 0.75rem !important;
   text-align: left !important;
+  color: #f3f4f6 !important; /* 더 밝은 텍스트 */
 }
 
 .prose-invert th {
-  background-color: #4e5052 !important;
-  color: #e8eaed !important;
+  background-color: #374151 !important; /* 더 밝은 배경 */
+  color: #f9fafb !important; /* 거의 흰색 */
   font-weight: 600 !important;
 }
 
@@ -79,14 +80,15 @@ body {
 .prose td {
   padding: 0.75rem;
   text-align: left;
-  border: 1px solid #4e5052;
+  border: 1px solid #6b7280; /* 더 밝은 테두리 */
   vertical-align: top;
+  color: #f3f4f6; /* 더 밝은 텍스트 */
 }
 
 .prose th {
-  background-color: #4e5052;
+  background-color: #374151; /* 더 밝은 배경 */
   font-weight: 600;
-  color: #e8eaed;
+  color: #f9fafb; /* 거의 흰색 */
   position: sticky;
   top: 0;
 }
@@ -101,7 +103,7 @@ body {
 }
 
 .prose tbody tr:last-child td {
-  border-bottom: 1px solid #4e5052;
+  border-bottom: 1px solid #6b7280; /* 더 밝은 테두리 */
 }
 
 /* 표 스크롤 컨테이너 */
@@ -140,11 +142,11 @@ body {
   }
   
   .prose tr {
-    border: 1px solid #4e5052;
+    border: 1px solid #6b7280; /* 더 밝은 테두리 */
     margin-bottom: 0.5rem;
     padding: 0.5rem;
     border-radius: 0.375rem;
-    background-color: #1e1f20;
+    background-color: #1f2937; /* 조금 더 밝은 배경 */
   }
   
   .prose td {
@@ -189,32 +191,36 @@ body {
 .prose blockquote {
   margin: 1rem 0;
   padding: 0.75rem 1rem;
-  border-left: 4px solid #8ab4f8;
-  background-color: rgba(19, 19, 20, 0.5);
+  border-left: 4px solid #60a5fa; /* 더 밝은 파란색 */
+  background-color: rgba(31, 41, 55, 0.5); /* 조금 더 밝은 배경 */
   border-radius: 0 0.375rem 0.375rem 0;
+  color: #f3f4f6; /* 더 밝은 텍스트 */
 }
 
 .prose code {
-  background-color: #131314;
+  background-color: #1f2937; /* 조금 더 밝은 배경 */
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
   font-family: 'Courier New', Courier, monospace;
+  color: #93c5fd; /* 더 밝은 파란색 */
 }
 
 .prose pre {
-  background-color: #131314;
+  background-color: #1f2937; /* 조금 더 밝은 배경 */
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
   margin: 1rem 0;
-  border: 1px solid #4e5052;
+  border: 1px solid #6b7280; /* 더 밝은 테두리 */
+  color: #f3f4f6; /* 더 밝은 텍스트 */
 }
 
 .prose pre code {
   background-color: transparent;
   padding: 0;
   border-radius: 0;
+  color: #f3f4f6; /* 더 밝은 텍스트 */
 }
 
 /* 다크 모드에서의 표 스타일 */

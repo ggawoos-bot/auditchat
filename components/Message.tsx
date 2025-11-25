@@ -739,22 +739,22 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
                     </td>
                   ),
                   p: ({ children, ...props }) => (
-                    <p className="mb-2 last:mb-0" {...props}>
+                    <p className={`mb-2 last:mb-0 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`} {...props}>
                       {children}
                     </p>
                   ),
                   ul: ({ children, ...props }) => (
-                    <ul className="list-disc list-inside mb-2 space-y-1" {...props}>
+                    <ul className={`list-disc list-inside mb-2 space-y-1 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`} {...props}>
                       {children}
                     </ul>
                   ),
                   ol: ({ children, ...props }) => (
-                    <ol className="list-decimal list-inside mb-2 space-y-1" {...props}>
+                    <ol className={`list-decimal list-inside mb-2 space-y-1 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`} {...props}>
                       {children}
                     </ol>
                   ),
                   li: ({ children, ...props }) => (
-                    <li className="text-brand-text-primary" {...props}>
+                    <li className={`${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`} {...props}>
                       {children}
                     </li>
                   ),
@@ -785,7 +785,7 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
                     </h3>
                   ),
                   blockquote: ({ children, ...props }) => (
-                    <blockquote className="border-l-4 border-brand-primary pl-4 py-2 my-4 bg-brand-bg/50 italic" {...props}>
+                    <blockquote className={`border-l-4 border-brand-primary pl-4 py-2 my-4 bg-brand-bg/50 italic ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`} {...props}>
                       {children}
                     </blockquote>
                   ),
