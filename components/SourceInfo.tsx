@@ -4,9 +4,10 @@ import { SourceInfo as SourceInfoType } from '../types';
 interface SourceInfoProps {
   sources: SourceInfoType[];
   onSourceClick?: (sourceId: string) => void;
+  theme?: 'light' | 'dark';
 }
 
-const SourceInfo: React.FC<SourceInfoProps> = ({ sources, onSourceClick }) => {
+const SourceInfo: React.FC<SourceInfoProps> = ({ sources, onSourceClick, theme = 'dark' }) => {
   if (!sources || sources.length === 0) return null;
 
   // PDF 파일명에서 확장자 제거하는 함수
@@ -23,20 +24,49 @@ const SourceInfo: React.FC<SourceInfoProps> = ({ sources, onSourceClick }) => {
   };
 
   return (
-    <div className="mt-4 p-4 bg-brand-surface border border-brand-secondary rounded-lg">
-      <h4 className="text-sm font-semibold text-brand-text-primary mb-2">참조 소스 (클릭 가능)</h4>
+    <div
+      className={
+        `mt-4 p-4 rounded-lg border ` +
+        (theme === 'dark'
+          ? 'bg-brand-surface border-brand-secondary'
+          : 'bg-white border-gray-200')
+      }
+    >
+      <h4
+        className={
+          `text-sm font-semibold mb-2 ` +
+          (theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900')
+        }
+      >
+        참조 소스 (클릭 가능)
+      </h4>
       <div className="space-y-2">
         {sources.map((source) => (
           <button
             key={source.id}
             onClick={() => onSourceClick?.(source.id)}
-            className="w-full text-left p-2 rounded hover:bg-brand-secondary transition-colors text-sm"
+            className={
+              `w-full text-left p-2 rounded transition-colors text-sm ` +
+              (theme === 'dark' ? 'hover:bg-brand-secondary' : 'hover:bg-gray-100')
+            }
           >
             <div className="flex items-center gap-2">
-              <span className="px-2 py-1 bg-brand-secondary text-brand-text-secondary rounded text-xs">
+              <span
+                className={
+                  `px-2 py-1 rounded text-xs ` +
+                  (theme === 'dark'
+                    ? 'bg-brand-secondary text-brand-text-secondary'
+                    : 'bg-gray-100 text-gray-700')
+                }
+              >
                 {source.type.toUpperCase()}
               </span>
-              <span className="text-brand-text-primary font-medium">
+              <span
+                className={
+                  `font-medium ` +
+                  (theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900')
+                }
+              >
                 {cleanTitle(removeFileExtension(source.title))}
               </span>
             </div>
@@ -45,10 +75,20 @@ const SourceInfo: React.FC<SourceInfoProps> = ({ sources, onSourceClick }) => {
       </div>
       
       {/* 설정 링크 */}
-      <div className="mt-3 pt-3 border-t border-brand-secondary">
+      <div
+        className={
+          `mt-3 pt-3 border-t ` +
+          (theme === 'dark' ? 'border-brand-secondary' : 'border-gray-200')
+        }
+      >
         <a 
           href="/auditchat/admin.html" 
-          className="inline-flex items-center gap-2 text-brand-primary hover:text-brand-text-primary transition-colors text-sm"
+          className={
+            `inline-flex items-center gap-2 transition-colors text-sm ` +
+            (theme === 'dark'
+              ? 'text-brand-primary hover:text-brand-text-primary'
+              : 'text-blue-600 hover:text-blue-800')
+          }
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />

@@ -1563,8 +1563,19 @@ function App() {
                 />
               ) : (
                 <div className="p-4 space-y-2 h-full overflow-y-auto sidebar-scroll">
-                  <h3 className="text-md font-medium">현재 자료</h3>
-                  <SourceInfo sources={sources} onSourceClick={handleSourceClick} />
+                  <h3
+                    className={
+                      `text-md font-medium ` +
+                      (theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900')
+                    }
+                  >
+                    현재 자료
+                  </h3>
+                  <SourceInfo
+                    sources={sources}
+                    onSourceClick={handleSourceClick}
+                    theme={theme}
+                  />
                 </div>
               )}
             </div>
