@@ -685,7 +685,11 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
         }`}
       >
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-brand-secondary border-t-brand-primary rounded-full animate-spin mx-auto mb-4"></div>
+          <div className={`w-12 h-12 border-4 rounded-full animate-spin mx-auto mb-4 ${
+            theme === 'dark'
+              ? 'border-brand-secondary border-t-brand-primary'
+              : 'border-gray-200 border-t-blue-500'
+          }`}></div>
           <p className="text-sm">문서를 불러오는 중...</p>
         </div>
       </div>
@@ -807,7 +811,9 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
             <button
               onClick={handlePreviousPage}
               disabled={pdfCurrentPage <= 1}
-              className="p-1 rounded hover:bg-brand-secondary disabled:opacity-50"
+              className={`p-1 rounded disabled:opacity-50 ${
+                theme === 'dark' ? 'hover:bg-brand-secondary' : 'hover:bg-gray-200'
+              }`}
               title="이전 페이지"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -823,13 +829,21 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                 const v = parseInt(e.target.value || '1', 10);
                 if (onPdfPageChange) onPdfPageChange(Math.min(Math.max(1, v), Math.max(1, totalPages)));
               }}
-              className="w-16 px-2 py-1 rounded border border-brand-secondary bg-brand-bg text-center text-xs text-brand-text-primary"
+              className={`w-16 px-2 py-1 rounded border text-center text-xs ${
+                theme === 'dark'
+                  ? 'border-brand-secondary bg-brand-bg text-brand-text-primary'
+                  : 'border-gray-300 bg-white text-gray-900'
+              }`}
             />
-            <span className="text-xs text-brand-text-secondary px-1">/ {Math.max(1, totalPages)}</span>
+            <span className={`text-xs px-1 ${
+              theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-600'
+            }`}>/ {Math.max(1, totalPages)}</span>
             <button
               onClick={handleNextPage}
               disabled={pdfCurrentPage >= totalPages}
-              className="p-1 rounded hover:bg-brand-secondary disabled:opacity-50"
+              className={`p-1 rounded disabled:opacity-50 ${
+                theme === 'dark' ? 'hover:bg-brand-secondary' : 'hover:bg-gray-200'
+              }`}
               title="다음 페이지"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -908,14 +922,24 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                   ref={(el) => (chunkRefs.current[chunk.id] = el)} // ✅ ref 할당
                   className={`p-4 rounded-lg border-2 transition-all duration-200 ${
                     isHighlighted
-                      ? 'border-brand-primary bg-brand-surface'
-                      : 'border-brand-secondary bg-brand-surface hover:border-brand-primary hover:shadow-sm'
+                      ? `border-brand-primary ${
+                          theme === 'dark' ? 'bg-brand-surface' : 'bg-blue-50'
+                        }`
+                      : `${
+                          theme === 'dark'
+                            ? 'border-brand-secondary bg-brand-surface hover:border-brand-primary'
+                            : 'border-gray-200 bg-white hover:border-blue-400'
+                        } hover:shadow-sm`
                   }`}
                 >
                   {/* 메타데이터 */}
-                  <div className="flex items-center gap-2 text-xs text-brand-text-secondary mb-2">
+                  <div className={`flex items-center gap-2 text-xs mb-2 ${
+                    theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-500'
+                  }`}>
                     {chunk.metadata.page && (
-                      <span className="w-full flex items-center justify-center gap-1 text-base font-bold text-brand-text-primary">
+                      <span className={`w-full flex items-center justify-center gap-1 text-base font-bold ${
+                        theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900'
+                      }`}>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -931,13 +955,19 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                       </span>
                     )}
                     {chunk.metadata.position && (
-                      <span className="ml-auto text-brand-text-secondary opacity-70">#{chunk.metadata.position}</span>
+                      <span className={`ml-auto opacity-70 ${
+                        theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-500'
+                      }`}>#{chunk.metadata.position}</span>
                     )}
                   </div>
 
                   {/* 청크 내용 */}
                   <div className={`text-sm leading-relaxed whitespace-pre-wrap ${
-                    isHighlighted ? 'text-brand-primary font-medium' : 'text-brand-text-primary'
+                    isHighlighted
+                      ? 'text-brand-primary font-medium'
+                      : theme === 'dark'
+                        ? 'text-brand-text-primary'
+                        : 'text-gray-900'
                   }`}>
                     {(() => {
                       const normalizedContent = normalizeWhitespace(chunk.content);
@@ -962,7 +992,11 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                       {chunk.keywords.slice(0, 5).map((keyword, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 bg-brand-secondary text-brand-text-secondary text-xs rounded"
+                          className={`px-2 py-0.5 text-xs rounded ${
+                            theme === 'dark'
+                              ? 'bg-brand-secondary text-brand-text-secondary'
+                              : 'bg-gray-200 text-gray-700'
+                          }`}
                         >
                           {keyword}
                         </span>
@@ -975,27 +1009,43 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
             
               {/* 주변 페이지 미리보기 */}
               {getContextualPages() && getContextualPages() && (
-                <div className="border-t border-brand-secondary mt-6 pt-4">
-                  <p className="text-xs text-brand-text-secondary mb-2 px-2">
+                <div className={`border-t mt-6 pt-4 ${
+                  theme === 'dark' ? 'border-brand-secondary' : 'border-gray-200'
+                }`}>
+                  <p className={`text-xs mb-2 px-2 ${
+                    theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-500'
+                  }`}>
                     주변 페이지 힌트
                   </p>
                   <div className="space-y-2 overflow-y-auto max-h-40">
                     {getContextualPages()?.previous && getContextualPages()!.previous.length > 0 && (
-                      <div className="bg-brand-secondary rounded p-2">
-                        <div className="text-xs text-brand-text-secondary font-semibold mb-1">
+                      <div className={`rounded p-2 ${
+                        theme === 'dark' ? 'bg-brand-secondary' : 'bg-gray-100'
+                      }`}>
+                        <div className={`text-xs font-semibold mb-1 ${
+                          theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-600'
+                        }`}>
                           ← 이전 페이지 ({getContextualPages()!.previous[0].metadata.page}페이지)
                         </div>
-                        <div className="text-xs text-brand-text-primary line-clamp-2">
+                        <div className={`text-xs line-clamp-2 ${
+                          theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900'
+                        }`}>
                           {getContextualPages()!.previous[0].content.substring(0, 150)}...
                         </div>
                       </div>
                     )}
                     {getContextualPages()?.next && getContextualPages()!.next.length > 0 && (
-                      <div className="bg-brand-secondary rounded p-2">
-                        <div className="text-xs text-brand-text-secondary font-semibold mb-1">
+                      <div className={`rounded p-2 ${
+                        theme === 'dark' ? 'bg-brand-secondary' : 'bg-gray-100'
+                      }`}>
+                        <div className={`text-xs font-semibold mb-1 ${
+                          theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-600'
+                        }`}>
                           다음 페이지 → ({getContextualPages()!.next[0].metadata.page}페이지)
                         </div>
-                        <div className="text-xs text-brand-text-primary line-clamp-2">
+                        <div className={`text-xs line-clamp-2 ${
+                          theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900'
+                        }`}>
                           {getContextualPages()!.next[0].content.substring(0, 150)}...
                         </div>
                       </div>
