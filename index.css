@@ -296,3 +296,40 @@ body {
 .sidebar-scroll::-webkit-scrollbar-thumb:hover {
   background-color: #6b7280;
 }
+
+/* =============================
+   Day / Dark 테마 전역 오버라이드
+   - App.tsx에서 body에 day-mode / dark-mode 클래스를 토글
+   - day-mode일 때는 brand 계열 색상을 라이트 팔레트로 강제
+   ============================= */
+
+body.day-mode {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+body.day-mode .bg-brand-bg {
+  background-color: #ffffff !important;
+}
+
+body.day-mode .bg-brand-surface {
+  background-color: #f3f4f6 !important; /* gray-100 정도의 밝은 회색 */
+}
+
+body.day-mode .bg-brand-secondary {
+  background-color: #e5e7eb !important; /* gray-200 */
+  color: #111827 !important;
+}
+
+body.day-mode .text-brand-text-primary {
+  color: #111827 !important; /* 거의 검정 */
+}
+
+body.day-mode .text-brand-text-secondary {
+  color: #4b5563 !important; /* gray-600 */
+}
+
+/* 참조 카드/메시지 경계선도 라이트 톤으로 변경 */
+body.day-mode .border-brand-secondary {
+  border-color: #e5e7eb !important;
+}
