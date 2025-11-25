@@ -719,12 +719,22 @@ const Message: React.FC<MessageProps> = ({ message, allMessages = [], messageInd
                     </tr>
                   ),
                   th: ({ children, ...props }) => (
-                    <th className="px-4 py-2 text-left text-brand-text-primary font-semibold border-r border-brand-secondary" {...props}>
+                    <th
+                      className={`px-4 py-2 text-left font-semibold border-r border-brand-secondary ${
+                        theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900'
+                      }`}
+                      {...props}
+                    >
                       {children}
                     </th>
                   ),
                   td: ({ children, ...props }) => (
-                    <td className="px-4 py-2 text-brand-text-primary border-r border-brand-secondary" {...props}>
+                    <td
+                      className={`px-4 py-2 border-r border-brand-secondary ${
+                        theme === 'dark' ? 'text-brand-text-primary' : 'text-gray-900'
+                      }`}
+                      {...props}
+                    >
                       {children}
                     </td>
                   ),
