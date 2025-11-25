@@ -390,3 +390,24 @@ body.day-mode .prose pre {
   border-color: #d1d5db; /* gray-300 */
   color: #111827;
 }
+
+body.day-mode .prose ul,
+body.day-mode .prose ol {
+  color: #111827;
+}
+
+body.day-mode .prose li {
+  color: #111827;
+}
+
+body.day-mode .prose li::marker {
+  color: #4b5563; /* gray-600 - 리스트 점/숫자 */
+}
+
+body.day-mode .prose strong {
+  color: #111827;
+}
+
+body.day-mode .prose em {
+  color: #111827;
+}

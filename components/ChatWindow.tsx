@@ -189,8 +189,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               <div className="w-3 h-3 md:w-5 md:h-5 border-2 border-brand-text-secondary border-t-transparent rounded-full animate-spin"></div>
             </div>
             <div className="flex-1">
-              <div className="bg-brand-surface border border-brand-secondary rounded-lg p-2 md:p-3">
-                <p className="text-brand-text-secondary text-sm md:text-base">답변을 생성하고 있습니다...</p>
+              <div
+                className={`border rounded-lg p-2 md:p-3 ${
+                  theme === 'dark'
+                    ? 'bg-brand-surface border-brand-secondary'
+                    : 'bg-gray-100 border-gray-200'
+                }`}
+              >
+                <p
+                  className={`text-sm md:text-base ${
+                    theme === 'dark' ? 'text-brand-text-secondary' : 'text-gray-600'
+                  }`}
+                >
+                  답변을 생성하고 있습니다...
+                </p>
               </div>
             </div>
           </div>
@@ -211,13 +223,14 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
 
 // React.memo로 ChatWindow 최적화 - 불필요한 리렌더링 방지
 export default React.memo(ChatWindow, (prevProps, nextProps) => {
-  // resetTrigger, isLoading, placeholder 변경 시에만 리렌더링
+  // resetTrigger, isLoading, placeholder, theme 변경 시에만 리렌더링
   return (
     prevProps.resetTrigger === nextProps.resetTrigger &&
     prevProps.isLoading === nextProps.isLoading &&
     prevProps.placeholder === nextProps.placeholder &&
     prevProps.onSendMessage === nextProps.onSendMessage &&
     prevProps.onStreamingMessage === nextProps.onStreamingMessage &&
-    prevProps.onResetMessages === nextProps.onResetMessages
+    prevProps.onResetMessages === nextProps.onResetMessages &&
+    prevProps.theme === nextProps.theme
   );
 });
