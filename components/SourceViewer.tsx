@@ -13,6 +13,7 @@ interface SourceViewerProps {
   pdfFilename?: string;
   onPdfPageChange?: (page: number) => void;
   onViewModeChange?: (mode: 'text' | 'pdf') => void;
+  theme?: 'light' | 'dark';
 }
 
 export const SourceViewer: React.FC<SourceViewerProps> = ({
@@ -24,7 +25,8 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
   pdfCurrentPage = 1,
   pdfFilename = '',
   onPdfPageChange,
-  onViewModeChange
+  onViewModeChange,
+  theme = 'dark'
 }) => {
   const [chunks, setChunks] = useState<PDFChunk[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -655,9 +657,18 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
 
   if (!selectedDocumentId) {
     return (
-      <div className="h-full flex items-center justify-center bg-brand-surface">
-        <div className="text-center text-brand-text-secondary p-8">
-          <svg className="w-16 h-16 mx-auto mb-4 text-brand-text-secondary opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div
+        className={`h-full flex items-center justify-center ${
+          theme === 'dark' ? 'bg-brand-surface text-brand-text-secondary' : 'bg-white text-gray-600'
+        }`}
+      >
+        <div className="text-center p-8">
+          <svg
+            className="w-16 h-16 mx-auto mb-4 opacity-50"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <p className="text-sm">좌측 소스를 선택하거나 답변의 참조 번호를 클릭하세요</p>
@@ -668,21 +679,33 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
 
   if (isLoading) {
     return (
-      <div className="h-full flex items-center justify-center bg-brand-surface">
+      <div
+        className={`h-full flex items-center justify-center ${
+          theme === 'dark' ? 'bg-brand-surface text-brand-text-secondary' : 'bg-white text-gray-600'
+        }`}
+      >
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-brand-secondary border-t-brand-primary rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-sm text-brand-text-secondary">문서를 불러오는 중...</p>
+          <p className="text-sm">문서를 불러오는 중...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full bg-brand-surface">
+    <div
+      className={`flex flex-col h-full ${
+        theme === 'dark' ? 'bg-brand-surface text-brand-text-primary' : 'bg-white text-gray-900'
+      }`}
+    >
       {/* 헤더 - 고정 */}
-      <div className="bg-brand-surface border-b border-brand-secondary px-4 py-3 flex-shrink-0 sticky top-0 z-30">
+      <div
+        className={`border-b px-4 py-3 flex-shrink-0 sticky top-0 z-30 ${
+          theme === 'dark' ? 'bg-brand-surface border-brand-secondary' : 'bg-white border-gray-200'
+        }`}
+      >
         <div className="flex items-center justify-between mb-2 gap-2">
-          <h2 className="text-lg font-semibold text-brand-text-primary truncate max-w-[60%]">{documentTitle}</h2>
+          <h2 className="text-lg font-semibold truncate max-w-[60%]">{documentTitle}</h2>
           <div className="flex items-center gap-2 flex-nowrap">
             {/* 뷰 모드 토글 버튼 */}
             <button
@@ -731,7 +754,11 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                   onViewModeChange?.('text');
                 }
               }}
-              className="px-3 py-1 bg-brand-secondary text-brand-text-primary rounded text-xs hover:bg-opacity-80 transition-colors whitespace-nowrap"
+              className={`px-3 py-1 rounded text-xs hover:bg-opacity-80 transition-colors whitespace-nowrap ${
+                theme === 'dark'
+                  ? 'bg-brand-secondary text-brand-text-primary'
+                  : 'bg-gray-100 text-gray-900'
+              }`}
               title={pdfViewerMode === 'text' ? '새 창에서 PDF 뷰어 열기' : '텍스트 뷰로 전환'}
             >
               {pdfViewerMode === 'text' ? '📄 PDF 뷰' : '📝 텍스트 뷰'}
@@ -759,7 +786,11 @@ export const SourceViewer: React.FC<SourceViewerProps> = ({
                 }
               }}
               placeholder="현재 문서에서 검색..."
-              className="flex-1 min-w-0 px-3 py-1.5 rounded border border-brand-secondary bg-brand-bg text-sm text-brand-text-primary focus:outline-none focus:border-brand-primary"
+              className={`flex-1 min-w-0 px-3 py-1.5 rounded border text-sm focus:outline-none focus:border-brand-primary ${
+                theme === 'dark'
+                  ? 'border-brand-secondary bg-brand-bg text-brand-text-primary'
+                  : 'border-gray-300 bg-white text-gray-900'
+              }`}
             />
             <button
               type="submit"

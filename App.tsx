@@ -1459,7 +1459,11 @@ function App() {
           <div 
             className={`
               fixed md:relative z-50 md:z-auto
-              bg-brand-surface border-r border-brand-secondary overflow-hidden
+              ${
+                theme === 'dark'
+                  ? 'bg-brand-surface border-brand-secondary text-brand-text-primary'
+                  : 'bg-white border-gray-200 text-gray-900'
+              } border-r overflow-hidden
               transform transition-transform duration-300 ease-in-out
               ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
               md:translate-x-0 md:block md:flex-shrink md:flex-grow-0
@@ -1504,7 +1508,7 @@ function App() {
             {!selectedDocumentId && (
               <div className="p-4 pb-2 border-b border-brand-secondary flex-shrink-0">
                 <div className="flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-brand-text-primary">
+                  <h2 className="text-lg font-semibold">
                     자료 출처
                   </h2>
                   <button
@@ -1555,10 +1559,11 @@ function App() {
                     }
                   }}
                   onViewModeChange={(mode) => setPdfViewerMode(mode)}
+                  theme={theme}
                 />
               ) : (
                 <div className="p-4 space-y-2 h-full overflow-y-auto sidebar-scroll">
-                  <h3 className="text-md font-medium text-brand-text-primary">현재 자료</h3>
+                  <h3 className="text-md font-medium">현재 자료</h3>
                   <SourceInfo sources={sources} onSourceClick={handleSourceClick} />
                 </div>
               )}
@@ -1578,7 +1583,16 @@ function App() {
           </div>
 
           {/* ✅ 채팅 화면 (전체 너비) - 사이드바 확장 시에도 보이도록 수정 */}
-          <div className={`flex-1 min-w-[300px] max-w-full ${isResizing ? 'opacity-90' : 'opacity-100'} transition-opacity duration-200`} style={{ flexShrink: 1 }}>
+          <div
+            className={`flex-1 min-w-[300px] max-w-full ${
+              isResizing ? 'opacity-90' : 'opacity-100'
+            } transition-opacity duration-200 ${
+              theme === 'dark'
+                ? 'bg-brand-bg text-brand-text-primary'
+                : 'bg-white text-gray-900'
+            }`}
+            style={{ flexShrink: 1 }}
+          >
             <div className="flex-1 flex flex-col min-w-0 h-full">
               <ChatWindow
                 key="chat-window" // ✅ 고정 키 사용 (리사이즈나 SourceViewer 변경 시에도 유지)
@@ -1587,6 +1601,7 @@ function App() {
                 onResetMessages={handleResetMessages} // ✅ 메모이제이션된 함수 사용
                 resetTrigger={chatKey} // 이 값이 변경될 때만 리셋
                 placeholder="감사업무 관련 문의사항을 입력하세요..."
+                theme={theme}
               />
             </div>
           </div>

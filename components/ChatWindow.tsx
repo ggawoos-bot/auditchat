@@ -11,6 +11,7 @@ interface ChatWindowProps {
   resetTrigger?: number; // 리셋 트리거 (키 값)
   isLoading?: boolean;
   placeholder?: string;
+  theme?: 'light' | 'dark';
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ 
@@ -19,7 +20,8 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   onResetMessages,
   resetTrigger,
   isLoading = false, 
-  placeholder 
+  placeholder,
+  theme = 'dark'
 }) => {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -154,12 +156,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-brand-bg">
+    <div
+      className={`flex flex-col h-full ${
+        theme === 'dark' ? 'bg-brand-bg' : 'bg-white'
+      }`}
+    >
       <div className="flex-1 overflow-y-auto p-2 md:p-4 space-y-3 md:space-y-4">
         {messages.length === 0 && (
-          <div className="text-center text-brand-text-secondary py-6 md:py-8 px-4">
-            <p className="text-sm md:text-base">안녕하세요! 궁금한 사업 문의사항을 물어보세요.</p>
-            <p className="text-xs md:text-sm mt-2">실제 PDF 문서를 기반으로 답변해드립니다.</p>
+          <div className="text-center py-6 md:py-8 px-4">
+            <p className="text-sm md:text-base">
+              안녕하세요! 궁금한 사업 문의사항을 물어보세요.
+            </p>
+            <p className="text-xs md:text-sm mt-2">
+              실제 PDF 문서를 기반으로 답변해드립니다.
+            </p>
           </div>
         )}
         
