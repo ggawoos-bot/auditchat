@@ -42,6 +42,7 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState<number>(450); // 기본값: 450px (약 25-30%)
   const [isResizing, setIsResizing] = useState(false);
   const [originalSidebarWidth, setOriginalSidebarWidth] = useState<number>(450); // 원래 사이드바 너비 저장
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   
   // ✅ 리사이즈 핸들러들
   const handleResizeStart = (e: React.MouseEvent) => {
@@ -91,6 +92,33 @@ function App() {
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
   }, [isResizing]);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') {
+      setTheme(saved);
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle('day-mode', theme === 'light');
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      window.localStorage.setItem('theme', next);
+      return next;
+    });
+  };
 
   // ✅ 소스뷰어 표시/숨김 시 사이드바 너비 자동 조정
   useEffect(() => {
@@ -1313,7 +1341,13 @@ function App() {
 
   if (isInitializing) {
     return (
-      <div className="min-h-screen bg-brand-bg text-brand-text-primary flex items-center justify-center">
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === 'dark'
+            ? 'bg-brand-bg text-brand-text-primary'
+            : 'bg-white text-gray-900'
+        }`}
+      >
         <div className="text-center max-w-md mx-auto px-4">
           <div className="relative mb-6">
             <div className="w-16 h-16 border-4 border-brand-secondary rounded-full mx-auto"></div>
@@ -1345,7 +1379,13 @@ function App() {
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-brand-bg text-brand-text-primary">
+      <div
+        className={
+          theme === 'dark'
+            ? 'min-h-screen bg-brand-bg text-brand-text-primary'
+            : 'min-h-screen bg-white text-gray-900'
+        }
+      >
       <div className="h-screen flex flex-col">
         <header className="bg-brand-surface border-b border-brand-secondary p-4">
           <div className="flex justify-between items-center">
@@ -1380,6 +1420,16 @@ function App() {
                   🧪 고급 검색 테스트
                 </button>
               )}
+              <button
+                onClick={toggleTheme}
+                className={`px-3 py-2 rounded-lg border text-xs md:text-sm transition-colors ${
+                  theme === 'dark'
+                    ? 'bg-black/40 border-brand-secondary text-brand-text-primary hover:bg-black/70'
+                    : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                {theme === 'dark' ? 'Dark' : 'Day'}
+              </button>
               <button
                 onClick={() => setShowCompressionStats(true)}
                 className="px-3 py-2 bg-brand-secondary text-brand-text-primary rounded-lg hover:bg-opacity-80 transition-colors text-xs md:text-sm"
